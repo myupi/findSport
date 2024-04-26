@@ -1,0 +1,53 @@
+:root {
+  --main-border: 12px;
+  --big-border: 20px;
+  --block-border: 32px;
+  /* -------------------- gradient -------------------- */
+  --gradient: linear-gradient(239deg, #0094ff -1.81%, #cd02ee 89.62%);
+  --gradient_line: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) -1.96%,
+    #d735f1 49.94%,
+    rgba(255, 255, 255, 0) 99.72%
+  );
+
+  /* -------------------- colors -------------------- */
+  --primary_50: #fae6fd;
+  --primary_100: #f0b1fa;
+  --primary_200: #e88bf7;
+  --primary_300: #de55f4;
+  --primary_400: #d735f1;
+  --primary_500: #cd02ee;
+  --primary_600: #bb02d9;
+  --primary_700: #9201a9;
+  --primary_800: #710183;
+  --primary_900: #560164;
+
+  --secondary50: #e6f4ff;
+  --secondary100: #b0deff;
+  --secondary200: #8aceff;
+  --secondary300: #54b7ff;
+  --secondary400: #33a9ff;
+  --secondary500: #0094ff;
+  --secondary600: #0087e8;
+  --secondary700: #0069b5;
+  --secondary800: #00518c;
+  --secondary900: #003e6b;
+
+  --dark25: #F9F9F9;
+  --dark50: #e9eaec;
+  --dark100: #bbbfc4;
+  --dark200: #9b9fa7;
+  --dark300: #6d747f;
+  --dark400: #515966;
+  --dark500: #252f40;
+  --dark600: #222b3a;
+  --dark700: #1a212d;
+  --dark800: #141a23;
+  --dark900: #10141b;
+
+  --white: #fff;
+  --black: #000;
+
+  /* -------------------- shadow -------------------- */
+}
