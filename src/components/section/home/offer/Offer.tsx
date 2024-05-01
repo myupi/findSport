@@ -1,10 +1,5 @@
 import { FC } from "react";
-import {
-  OfferWrap,
-  OfferItemImage,
-  OfferSlider,
-  Offers,
-} from "./offer.s";
+import { OfferWrap, OfferItemImage, OfferSlider, Offers } from "./offer.s";
 import Styles, { Typography } from "src/styles";
 import Animations from "src/animations";
 import Image from "next/image";
@@ -13,6 +8,7 @@ import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CustomIcon from "src/assets/custom-icons";
+import { useTranslation } from "react-i18next";
 
 interface IOfferProps {}
 
@@ -98,6 +94,7 @@ const NextButton: FC<PrevButtonProps> = ({ className, onClick }) => {
 };
 
 export const Offer: FC<IOfferProps> = (props) => {
+  const { t } = useTranslation();
   const settings: Settings = {
     dots: false,
     infinite: true,
@@ -138,9 +135,7 @@ export const Offer: FC<IOfferProps> = (props) => {
       <Styles.Container>
         <Styles.Column width="100%" direction={"column"} gap={32}>
           <Animations.Title>
-            <Typography.H2 align="center">
-              Tired of work? We have a useful offer for you.
-            </Typography.H2>
+            <Typography.H2 align="center">{t("offer")}</Typography.H2>
           </Animations.Title>
         </Styles.Column>
         <OfferSlider>

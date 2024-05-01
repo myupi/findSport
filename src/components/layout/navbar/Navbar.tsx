@@ -1,20 +1,36 @@
 import { FC, useState } from "react";
-import { ChangeLanguage, Languages, LogoLink, NavbarWrap } from "./navbar.s";
+import {
+  ChangeLanguage,
+  LanguageButton,
+  Languages,
+  LogoLink,
+  NavbarWrap,
+} from "./navbar.s";
 import Styles, { Typography } from "src/styles";
 import Link from "next/link";
 import Image from "next/image";
 import Heart from "src/assets/icons/heart";
 import CustomIcon from "src/assets/custom-icons";
-import { AnimatePresence } from "framer-motion";
-import Animations from "src/animations";
+import { useTranslation } from "react-i18next";
 
 interface INavbarProps {}
 
-export const Navbar: FC<INavbarProps> = ({}) => {
-  const [open, setOpen] = useState<boolean>(false);
+interface Langugaes {
+  lang: string;
+  value: string;
+  icon: FC;
+}
 
-  const handleOpen = () => {
-    setOpen((props) => !props);
+const languages: Langugaes[] = [
+  { lang: "Russian", value: "ru", icon: CustomIcon.RussianFlag },
+  { lang: "English", value: "en", icon: CustomIcon.AmericanFlag },
+  { lang: "Uzbek", value: "uz", icon: CustomIcon.AmericanFlag },
+];
+
+export const Navbar: FC<INavbarProps> = ({}) => {
+  const { i18n } = useTranslation();
+  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    i18n.changeLanguage(event.target.value);
   };
 
   return (
@@ -47,18 +63,24 @@ export const Navbar: FC<INavbarProps> = ({}) => {
                 <Link href={"/user"}>
                   <CustomIcon.User color="white" />
                 </Link>
-                <Heart.Outline color="white" />
-                <Styles.Row size={2} difference={10}>
-                  <Styles.Column width="100%">
-                    <ChangeLanguage onClick={handleOpen}>
-                      <Typography.SMALL color="white">English</Typography.SMALL>
-                      <CustomIcon.RussianFlag />
-                      <AnimatePresence>
-                        {open && <Languages>Russian</Languages>}
-                      </AnimatePresence>
-                    </ChangeLanguage>
-                  </Styles.Column>
-                </Styles.Row>
+                <Link href={"/user"}>
+                  <Heart.Outline color="white" />
+                </Link>
+                <ChangeLanguage
+                  defaultValue={i18n.language}
+                  onChange={onChange}
+                >
+                  {languages.map((el, index) => (
+                    <option key={index} value={el.value}>
+                      {el.lang}
+                    </option>
+                  ))}
+                </ChangeLanguage>
+                {languages.map((el, index) => {
+                  if (el.value === i18n.language) {
+                    return <el.icon key={index} />;
+                  }
+                })}
               </Styles.Column>
             </Styles.Row>
           </Styles.Column>

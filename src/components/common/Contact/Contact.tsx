@@ -1,18 +1,54 @@
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import Styles, { Typography } from "src/styles";
 import { ContactButton, ContactImage, DropBox, DropDown } from "./contact.s";
 import { AnimatePresence } from "framer-motion";
 import Animations from "src/animations";
 
 interface IContactProps {}
+interface IContactOptionsProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const ContactOptions: FC<IContactOptionsProps> = ({ isOpen, onClose }) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <DropBox>
+          <div onClick={onClose}>
+            <button>Chat</button>
+            <button>Phone Number</button>
+          </div>
+        </DropBox>
+      )}
+    </AnimatePresence>
+  );
+};
 
 export const Contact: FC<IContactProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropDownRef = useRef<HTMLDivElement>(null);
 
-  function handleOpen() {
-    setIsOpen((props) => !props);
-  }
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropDownRef.current &&
+        !dropDownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [dropDownRef]);
+
+  const handleOpen = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <Styles.Column width="100%" gap={8}>
@@ -35,7 +71,7 @@ export const Contact: FC<IContactProps> = (props) => {
         </Styles.Row>
       </Styles.Column>
       <Styles.Column width="100%">
-        <DropDown>
+        <DropDown ref={dropDownRef}>
           <ContactButton onClick={handleOpen}>Connection</ContactButton>
           <AnimatePresence>
             {isOpen && (

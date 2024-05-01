@@ -12,6 +12,6 @@ export interface IAdd {
   price: number;
   landmark: string;
   is_favorite: boolean;
-  image: string;
+  images: string[];
   sport: ISport;
 }

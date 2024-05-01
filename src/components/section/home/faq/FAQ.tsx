@@ -3,6 +3,7 @@ import { ExpandButton, FAQWrap, Question } from "./faq.s";
 import Styles, { Typography } from "src/styles";
 import Animations from "src/animations";
 import { ChevronDown } from "src/assets/img/chevron-down";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
@@ -40,14 +41,13 @@ const questions = [
 ];
 
 export default function FAQ({}: Props) {
+  const { t } = useTranslation();
   return (
     <FAQWrap>
       <Styles.Container>
         <Styles.Column width="100%" direction={"column"} gap={32}>
           <Animations.Title>
-            <Styles.SectionTitle>
-              “Frequently asked questions”
-            </Styles.SectionTitle>
+            <Styles.SectionTitle>“{t("FAQ")}”</Styles.SectionTitle>
           </Animations.Title>
           <FAQColapse questions={questions} />
         </Styles.Column>

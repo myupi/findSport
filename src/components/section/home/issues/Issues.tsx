@@ -13,6 +13,7 @@ import Styles, { Typography } from "src/styles";
 import Animations from "src/animations";
 import CustomIcon from "src/assets/custom-icons";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 interface IIssuesProps {}
 
@@ -21,43 +22,39 @@ interface Issuesitem {
   icon: FC;
 }
 
-const arr: Issuesitem[] = [
-  {
-    title: "You want to increase your revenue.",
-    icon: CustomIcon.Upgrade,
-  },
-  {
-    title: "You're overwhelmed with administrative work.",
-    icon: CustomIcon.Document,
-  },
-  {
-    title: "People can't easily see when your facilities are available.",
-    icon: CustomIcon.Cursor,
-  },
-  {
-    title: "I’m tired of looking for new customers.",
-    icon: CustomIcon.Persons,
-  },
-];
-
 export const Issues: FC<IIssuesProps> = (props) => {
+  const { t } = useTranslation();
+  const arr: Issuesitem[] = [
+    {
+      title: t("issueUpgrade"),
+      icon: CustomIcon.Upgrade,
+    },
+    {
+      title: t("issueDocument"),
+      icon: CustomIcon.Document,
+    },
+    {
+      title: t("issueCursor"),
+      icon: CustomIcon.Cursor,
+    },
+    {
+      title: t("issuePersons"),
+      icon: CustomIcon.Persons,
+    },
+  ];
   return (
     <IssuesWrap>
       <Styles.Container style={{ zIndex: 20, position: "relative" }}>
         <Styles.Column width="100%" direction={"column"} gap={32}>
           <Animations.Title>
             <Typography.H2 align="center">
-              Are you facing these{" "}
-              <span style={{ color: "#5F5CF1" }}>common issues?</span>
+              {t("issueTitleFirst")}{" "}
+              <span style={{ color: "#5F5CF1" }}>{t("issueTitleSecond")}</span>
             </Typography.H2>
           </Animations.Title>
           <Animations.Title>
             <Typography.LEAD_TEXT align="center">
-              At FingStop, we understand your problems because we were in your
-              place. Our sports facility booking, planning and access management
-              program has helped hundreds of customers around the world save
-              time and increase revenue. Register on our platform and place your
-              object.
+              {t("issueDescription")}
             </Typography.LEAD_TEXT>
           </Animations.Title>
         </Styles.Column>
@@ -93,10 +90,10 @@ export const Issues: FC<IIssuesProps> = (props) => {
             <Styles.Row size={{ xs: 12, md: 6 }} difference={10}>
               <Styles.Column width="100%" direction={"column"} gap={10}>
                 <Typography.H3 color="white">
-                  We will solve these problems for you. 😍
+                  {t("solveProblem")} 😍
                 </Typography.H3>
                 <Typography.SMALL color="white">
-                  Join with more 1200+ happy customers
+                  {t("joinCustomers")}
                 </Typography.SMALL>
                 <OtherAvatar>
                   <Styles.Column width="100%" align_items={"center"}>
@@ -157,7 +154,7 @@ export const Issues: FC<IIssuesProps> = (props) => {
                 align_items={"center"}
                 style={{ justifyContent: "center" }}
               >
-                <RegisterButton>Registration</RegisterButton>
+                <RegisterButton>{t("registration")}</RegisterButton>
               </Styles.Column>
             </Styles.Row>
           </Styles.Column>

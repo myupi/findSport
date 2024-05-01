@@ -13,6 +13,7 @@ import Styles, { Typography } from "src/styles";
 import Animations from "src/animations";
 import Image from "next/image";
 import CustomIcon from "src/assets/custom-icons";
+import { useTranslation } from "react-i18next";
 
 interface IClientProps {}
 interface Comments {
@@ -45,6 +46,7 @@ const arr: Comments[] = [
 
 export const Client: FC<IClientProps> = (props) => {
   const [active, setActive] = useState(0);
+  const { t } = useTranslation();
   const handleChangeActive = (index: number) => {
     setActive(index);
   };
@@ -53,12 +55,13 @@ export const Client: FC<IClientProps> = (props) => {
       <Styles.Container>
         <Animations.Title>
           <Typography.H2 align="center">
-            What our happy <span style={{ color: "#5F5CF1" }}> client say</span>
+            {t("clientTitleFirst")}{" "}
+            <span style={{ color: "#5F5CF1" }}> {t("clientTitleSecond")}</span>
           </Typography.H2>
         </Animations.Title>
         <Animations.Title>
           <Typography.LEAD_TEXT align="center">
-            Several selected clients, who already believe in our service.
+            {t("client")}
           </Typography.LEAD_TEXT>
         </Animations.Title>
         <Styles.Column width="100%">

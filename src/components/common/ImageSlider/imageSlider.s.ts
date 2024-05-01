@@ -23,6 +23,7 @@ export const SlideDots = styled.div<{ active?: number }>`
     align-items: center;
     justify-content: center;
     position: relative;
+    cursor: pointer;
 
     ${(props) =>
       !!props.active &&

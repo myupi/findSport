@@ -21,8 +21,8 @@ export const Card: FC<ICardProps> = ({ add }) => {
         <Image
           width={500}
           height={200}
-          src="https://images.wallpaperscraft.ru/image/single/devushka_uedinenie_art_129798_1600x900.jpg"
-          alt=""
+          src={add.images[0]}
+          alt={add.title}
           style={{ width: "100%", height: "auto" }}
           priority
         />

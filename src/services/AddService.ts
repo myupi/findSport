@@ -8,24 +8,18 @@ interface data {
 export const addAPI = createApi({
   reducerPath: "addAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://findsport.jscorp.uz/v1/advertisements",
+    baseUrl: "https://findsport.jscorp.uz/v1",
   }),
   endpoints: (build) => ({
     fetchAllAdds: build.query<data, number>({
-      query: (limit: number = 8) => ({
-        url: "/all-ads",
-        params: {
-          limit: limit,
-        },
+      query: () => ({
+        url: "/advertisements/all-ads",
       }),
     }),
-    // fetchHomeAdds: build.query<data, number>({
-    //   query: (limit: number = 8) => ({
-    //     url: "/best-ads",
-    //     params: {
-    //       limit: limit,
-    //     },
-    //   }),
-    // }),
+    fetchBestAdds: build.query<data, string>({
+      query: () => ({
+        url: "/advertisements/best-ads",
+      }),
+    }),
   }),
 });
