@@ -25,6 +25,13 @@ const resources = {
       FAQ: "Frequently asked questions",
       similarAds: "Similar ads",
       error: "Data did not arrive",
+      search: "Search",
+      wholeUzb: "The whole of Uzbekistan",
+      ads: "We have 21 215 486 ads, ask what you need",
+      pages: "Number of pages",
+      sports: "Sports",
+      types: "Типы рекламы",
+      price: "Price"
     },
   },
   ru: {
@@ -50,6 +57,13 @@ const resources = {
       FAQ: "Часто задаваемые вопросы",
       similarAds: "Похожие объявления",
       error: "Данные не пришли",
+      search: "Поиск",
+      wholeUzb: "Весь Узбекистан",
+      ads: "У нас 21 215 486 объявлений, напишите, что вам нужно",
+      pages: "Количество страниц",
+      sports: "Виды спорта",
+      types: "Types of ads",
+      price: "Цена"
     },
   },
   uz: {
@@ -76,6 +90,13 @@ const resources = {
       FAQ: "Tez-tez so'raladigan savollar",
       similarAds: "O'xshash reklamalar",
       error: "Ma'lumotlar kelmadi",
+      search: "Qidirish",
+      wholeUzb: "Butun O'zbekiston",
+      ads: "Bizda 21 215 486 ta e'lon bor, nima kerakligini yozing",
+      pages: "Sahifalar soni",
+      sports: "Sport turlari",
+      types: "E'lon turlari",
+      price: "Narxi"
     },
   },
 };

@@ -67,6 +67,7 @@ export const Navbar: FC<INavbarProps> = ({}) => {
                   <Heart.Outline color="white" />
                 </Link>
                 <ChangeLanguage
+                  id="select"
                   defaultValue={i18n.language}
                   onChange={onChange}
                 >

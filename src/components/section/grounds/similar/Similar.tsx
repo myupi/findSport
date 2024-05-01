@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 interface ISimilarProps {}
 
 export const Similar: FC<ISimilarProps> = (props) => {
-  const { data, isLoading } = addAPI.useFetchAllAddsQuery(8);
+  const { data, isLoading, isError } = addAPI.useFetchAllAddsQuery(8);
   const [adds, setAdds] = useState<IAdd[]>([]);
   const { t } = useTranslation();
   useEffect(() => {
@@ -50,18 +50,20 @@ export const Similar: FC<ISimilarProps> = (props) => {
               </Link>
             </Styles.Row>
           ))}
-          {Array(4)
-            .fill(undefined)
-            .map((el, index) => (
-              <Styles.Row
-                size={{ xs: 12, sm: 6, lg: 4, "2xl": 3 }}
-                difference={{ xs: 8, sm: 8, lg: 16, "2xl": 18 }}
-                key={index}
-              >
-                <Common.SkeletonCard />
-              </Styles.Row>
-            ))}
+          {isLoading &&
+            Array(4)
+              .fill(undefined)
+              .map((el, index) => (
+                <Styles.Row
+                  size={{ xs: 12, sm: 6, lg: 4, "2xl": 3 }}
+                  difference={{ xs: 8, sm: 8, lg: 16, "2xl": 18 }}
+                  key={index}
+                >
+                  <Common.SkeletonCard />
+                </Styles.Row>
+              ))}
         </Styles.Column>
+        {isError && <Typography.H2 align="center">{t("error")}</Typography.H2>}
         <Styles.Column
           width="100%"
           align_items={"center"}

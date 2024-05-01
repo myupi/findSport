@@ -44,7 +44,7 @@ export const Rent: FC<IRentProps> = (props) => {
               </Link>
             </Styles.Row>
           ))}
-          {Array(8)
+          {isLoading && Array(8)
             .fill(undefined)
             .map((el, index) => (
               <Styles.Row

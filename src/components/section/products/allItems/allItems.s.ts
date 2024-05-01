@@ -29,6 +29,7 @@ export const ItemsSelect = styled.select`
       border: 1px solid black;
     }
   }
+  
 `;
 
 export const ItemsInputWrap = styled.div`
