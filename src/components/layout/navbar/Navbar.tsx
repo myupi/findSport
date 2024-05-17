@@ -1,8 +1,6 @@
 import { FC, useState } from "react";
 import {
   ChangeLanguage,
-  LanguageButton,
-  Languages,
   LogoLink,
   NavbarWrap,
 } from "./navbar.s";
@@ -24,7 +22,7 @@ interface Langugaes {
 const languages: Langugaes[] = [
   { lang: "Russian", value: "ru", icon: CustomIcon.RussianFlag },
   { lang: "English", value: "en", icon: CustomIcon.AmericanFlag },
-  { lang: "Uzbek", value: "uz", icon: CustomIcon.AmericanFlag },
+  { lang: "Uzbek", value: "uz", icon: CustomIcon.UzbekFlag },
 ];
 
 export const Navbar: FC<INavbarProps> = ({}) => {
@@ -63,7 +61,7 @@ export const Navbar: FC<INavbarProps> = ({}) => {
                 <Link href={"/user"}>
                   <CustomIcon.User color="white" />
                 </Link>
-                <Link href={"/user"}>
+                <Link href={"/favourite"}>
                   <Heart.Outline color="white" />
                 </Link>
                 <ChangeLanguage

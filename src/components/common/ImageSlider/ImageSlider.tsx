@@ -1,13 +1,15 @@
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import CustomIcon from "src/assets/custom-icons";
 import Styles from "src/styles";
 import { DotsDiv, SlideDots } from "./imageSlider.s";
 import Animations from "src/animations";
 
-interface IImageSliderProps {}
+interface IImageSliderProps {
+  images: string[];
+}
 
-export const ImageSlider: FC<IImageSliderProps> = (props) => {
+export const ImageSlider: FC<IImageSliderProps> = ({ images }) => {
   const [active, setActive] = useState(0);
 
   const handleChangeActive = (index: number) => {
@@ -15,7 +17,7 @@ export const ImageSlider: FC<IImageSliderProps> = (props) => {
   };
 
   const NextSlideImage = () => {
-    if (active == 4) {
+    if (active == images.length - 1) {
       return setActive(0);
     }
 
@@ -24,7 +26,7 @@ export const ImageSlider: FC<IImageSliderProps> = (props) => {
 
   const PrevSlideImage = () => {
     if (active == 0) {
-      return setActive(4);
+      return setActive(images.length - 1);
     }
 
     setActive((props) => props - 1);
@@ -49,7 +51,7 @@ export const ImageSlider: FC<IImageSliderProps> = (props) => {
             <Image
               width={1600}
               height={900}
-              src="https://images.wallpaperscraft.ru/image/single/devushka_uedinenie_art_129798_1600x900.jpg"
+              src={`https://projects-findsport.pn32gk.easypanel.host/${images[active]}`}
               alt="image"
               style={{
                 width: "100%",
@@ -60,12 +62,13 @@ export const ImageSlider: FC<IImageSliderProps> = (props) => {
             />
           </Animations.SlideAnimate>
           <DotsDiv>
-            {Array(5)
+            {Array(images.length)
               .fill(undefined)
               .map((el, index) => (
                 <SlideDots
                   active={active == index ? 1 : 0}
                   onClick={() => handleChangeActive(index)}
+                  key={index}
                 />
               ))}
           </DotsDiv>

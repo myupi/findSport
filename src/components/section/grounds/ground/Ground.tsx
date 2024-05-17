@@ -1,13 +1,47 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { GroundWrap } from "./ground.s";
 import Styles, { Typography } from "src/styles";
-import Heart from "src/assets/icons/heart";
 import CustomIcon from "src/assets/custom-icons";
 import Common from "src/components/common";
+import { addAPI } from "src/services/AddService";
+import { IDetailAdd } from "src/models/IAdd";
+import { useTranslation } from "react-i18next";
 
-interface IGroundProps {}
+interface IGroundProps {
+  id: number;
+}
 
-export const Ground: FC<IGroundProps> = (props) => {
+function addThousandSeparator(number: number) {
+  return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export const Ground: FC<IGroundProps> = ({ id }) => {
+  const { data, isLoading, isError } = addAPI.useFetchDetailQuery({ id: id });
+  const [ground, setGround] = useState<IDetailAdd>({} as IDetailAdd);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      setGround(data.data);
+    }
+  }, [data, isLoading]);
+
+  if (isLoading) {
+    return (
+      <Typography.H1 align="center" style={{ width: "100%" }}>
+        Loading...
+      </Typography.H1>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Typography.H1 align="center" style={{ width: "100%" }}>
+        {t("error")}
+      </Typography.H1>
+    );
+  }
+
   return (
     <GroundWrap>
       <Styles.Container>
@@ -15,25 +49,29 @@ export const Ground: FC<IGroundProps> = (props) => {
           <Styles.Row size={{ md: 12, lg: 7, "2xl": 8 }} difference={16}>
             <Styles.Column width="100%" direction={"column"} gap={16}>
               <Common.AboutWrap>
-                <Common.ImageSlider />
+                <Common.ImageSlider
+                  images={
+                    ground.images && ground.images.length > 0
+                      ? ground.images
+                      : []
+                  }
+                />
               </Common.AboutWrap>
               <Common.AboutWrap>
                 <Styles.Column width="100%" direction={"column"} gap={16}>
                   <Styles.Column width="100%" align_items={"center"}>
                     <Styles.Row size={{ xs: 7, sm: 8, md: 10 }} difference={0}>
                       <Styles.Column width="100%" direction={"column"} gap={8}>
-                        <Typography.H4>
-                          Зал единоборств "Золотой Дракон"
-                        </Typography.H4>
+                        <Typography.H4>{ground.title}</Typography.H4>
                         <Styles.Column
                           width="100%"
                           align_items={"center"}
                           gap={10}
                         >
                           <Typography.SMALL color="dark100">
-                            4.5
+                            {ground.rating}
                           </Typography.SMALL>
-                          <CustomIcon.Stars rating={4.5} />
+                          <CustomIcon.Stars rating={ground.rating} />
                         </Styles.Column>
                       </Styles.Column>
                     </Styles.Row>
@@ -44,28 +82,15 @@ export const Ground: FC<IGroundProps> = (props) => {
                         align_items={"center"}
                         style={{ justifyContent: "flex-end" }}
                       >
-                        <CustomIcon.Share />
-                        <Heart.Outline />
+                        <Common.CopyURL />
+                        <Common.LikeBTN id={ground.id} />
                       </Styles.Column>
                     </Styles.Row>
                   </Styles.Column>
-                  <Typography.H2>200 000 sum</Typography.H2>
-                  <Typography.SMALL>
-                    Спортивный зал 140 м2 в 5-ти минутах пешком от м.
-                    Авиамоторная. Зал отлично подойдет для проведения
-                    индивидуальных и групповых занятий самбо, дзюдо, йогой,
-                    восточными практиками, для организации семинаров,
-                    мастер-классов. Мягкое покрытие, душевые, раздевалки,
-                    туалеты. Есть необходимый инвентарь для занятий.
-                    <br />
-                    <br />
-                    Спортивный зал 173 м2 в 5-ти минутах пешком от м.
-                    Авиамоторная. Зал отлично подойдет для проведения
-                    индивидуальных и групповых занятий самбо, дзюдо, йогой,
-                    восточными практиками, для организации семинаров,
-                    мастер-классов. Мягкое покрытие, душевые, раздевалки,
-                    туалеты. Есть необходимый инвентарь для занятий
-                  </Typography.SMALL>
+                  <Typography.H2>
+                    {addThousandSeparator(ground.price)} sum
+                  </Typography.H2>
+                  <Typography.SMALL>{ground.description}</Typography.SMALL>
                 </Styles.Column>
               </Common.AboutWrap>
             </Styles.Column>
@@ -89,7 +114,9 @@ export const Ground: FC<IGroundProps> = (props) => {
                         align_items={"center"}
                       >
                         <CustomIcon.Field />
-                        <Typography.SMALL>15 x 11.5 x 4.5</Typography.SMALL>
+                        <Typography.SMALL>
+                          {ground.ground_size}
+                        </Typography.SMALL>
                       </Styles.Column>
                     </Styles.Row>
                     <Styles.Row size={2} difference={0}>
@@ -177,10 +204,25 @@ export const Ground: FC<IGroundProps> = (props) => {
                 </Styles.Column>
               </Common.AboutWrap>
               <Common.AboutWrap>
-                <Common.Orientir />
+                <Common.Orientir
+                  landmark={ground.landmark}
+                  latitude={ground.location && ground.location.latitude}
+                  longitude={ground.location && ground.location.longitude}
+                />
               </Common.AboutWrap>
               <Common.AboutWrap>
-                <Common.Contact />
+                <Common.Contact
+                  name={
+                    ground.phones && ground.phones.length > 0
+                      ? ground.phones[0].name
+                      : ""
+                  }
+                  phone={
+                    ground.phones && ground.phones.length > 0
+                      ? ground.phones[0].phone
+                      : ""
+                  }
+                />
               </Common.AboutWrap>
             </Styles.Column>
           </Styles.Row>

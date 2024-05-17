@@ -56,35 +56,3 @@ export const ChangeLanguage = styled.select`
   }
 `;
 
-export const Languages = styled.div`
-  && {
-    width: 100px;
-    position: absolute;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background: gray;
-    gap: 2px;
-    padding: 5px;
-    bottom: -85px;
-    border-radius: 5px 0 5px 5px;
-  }
-`;
-
-export const LanguageButton = styled.button`
-  && {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 10px;
-    background: red;
-    border-radius: 6px;
-    gap: 2.5px;
-    &:hover {
-      opacity: 0.75;
-    }
-  }
-`;

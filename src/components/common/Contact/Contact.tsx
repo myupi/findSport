@@ -4,8 +4,10 @@ import Styles, { Typography } from "src/styles";
 import { ContactButton, ContactImage, DropBox, DropDown } from "./contact.s";
 import { AnimatePresence } from "framer-motion";
 import Animations from "src/animations";
+import { IPhones } from "src/models/IAdd";
 
-interface IContactProps {}
+interface IContactProps extends IPhones {}
+
 interface IContactOptionsProps {
   isOpen: boolean;
   onClose: () => void;
@@ -26,7 +28,7 @@ const ContactOptions: FC<IContactOptionsProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export const Contact: FC<IContactProps> = (props) => {
+export const Contact: FC<IContactProps> = ({ name, phone }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -65,8 +67,8 @@ export const Contact: FC<IContactProps> = (props) => {
         </Styles.Row>
         <Styles.Row size={{ xs: 10, sm: 11, lg: 10.5 }} difference={12}>
           <Styles.Column width="100%" direction={"column"}>
-            <Typography.H6>Ronald Simpson</Typography.H6>
-            <Typography.SMALL>+998-(99)-Показать телефон</Typography.SMALL>
+            <Typography.H6>{name}</Typography.H6>
+            <Typography.SMALL>{phone}</Typography.SMALL>
           </Styles.Column>
         </Styles.Row>
       </Styles.Column>

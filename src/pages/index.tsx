@@ -7,6 +7,7 @@ export default function Home() {
     <>
       <Head>
         <title>FindSport</title>
+        <link rel="icon" type="image/x-icon" href="/images/Icon.png"></link>
       </Head>
       <main>
         <Sections.Offer />

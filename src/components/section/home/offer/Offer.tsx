@@ -1,76 +1,18 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { OfferWrap, OfferItemImage, OfferSlider, Offers } from "./offer.s";
 import Styles, { Typography } from "src/styles";
 import Animations from "src/animations";
 import Image from "next/image";
 import Link from "next/link";
 import Slider, { Settings } from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import CustomIcon from "src/assets/custom-icons";
 import { useTranslation } from "react-i18next";
+import { addAPI } from "src/services/AddService";
+import { ISport } from "src/models/IAdd";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 interface IOfferProps {}
-
-interface OfferItems {
-  title: string;
-  image: string;
-}
-
-const arr: OfferItems[] = [
-  {
-    title: "Paintball",
-    image: "/images/Offer/Property1.png",
-  },
-  {
-    title: "Game club",
-    image: "/images/Offer/Property2.png",
-  },
-  {
-    title: "Suv sporti",
-    image: "/images/Offer/Property3.png",
-  },
-  {
-    title: "Kibersport",
-    image: "/images/Offer/Property4.png",
-  },
-  {
-    title: "Stol tennis",
-    image: "/images/Offer/Property5.png",
-  },
-  {
-    title: "Badminton",
-    image: "/images/Offer/Property6.png",
-  },
-  {
-    title: "Basketbol",
-    image: "/images/Offer/Property7.png",
-  },
-  {
-    title: "Raqs",
-    image: "/images/Offer/Property8.png",
-  },
-  {
-    title: "Tennis",
-    image: "/images/Offer/Property9.png",
-  },
-  {
-    title: "Valleybol",
-    image: "/images/Offer/Property10.png",
-  },
-  {
-    title: "Gimnastika",
-    image: "/images/Offer/Property11.png",
-  },
-  {
-    title: "Jang sanati",
-    image: "/images/Offer/Property12.png",
-  },
-  {
-    title: "Fudbol",
-    image: "/images/Offer/Property13.png",
-  },
-];
 
 interface PrevButtonProps {
   className: string;
@@ -95,22 +37,39 @@ const NextButton: FC<PrevButtonProps> = ({ className, onClick }) => {
 
 export const Offer: FC<IOfferProps> = (props) => {
   const { t } = useTranslation();
+  const { data, isLoading, isError } = addAPI.useFetchAllAddsQuery(8);
   const settings: Settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 7,
     slidesToScroll: 1,
-    prevArrow: <PrevButton className="prev-button" onClick={() => {}} />, // ваш компонент для кнопки "назад"
-    nextArrow: <NextButton className="next-button" onClick={() => {}} />, // ваш компонент для кнопки "вперед"
+    prevArrow: <PrevButton className="prev-button" onClick={() => {}} />,
+    nextArrow: <NextButton className="next-button" onClick={() => {}} />,
     responsive: [
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow: 6,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
         },
       },
       {
@@ -119,6 +78,7 @@ export const Offer: FC<IOfferProps> = (props) => {
           slidesToShow: 3,
           slidesToScroll: 1,
           initialSlide: 1,
+          infinite: true,
         },
       },
       {
@@ -126,10 +86,35 @@ export const Offer: FC<IOfferProps> = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          infinite: true,
         },
       },
     ],
   };
+  const [arr, setArr] = useState<ISport[]>([]);
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      setArr(data.append.sports);
+    }
+  }, [data, isLoading]);
+
+  if (isLoading) {
+    return (
+      <Typography.H1 align="center" style={{ width: "100%" }}>
+        Loading...
+      </Typography.H1>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Typography.H1 align="center" style={{ width: "100%" }}>
+        {t("error")}
+      </Typography.H1>
+    );
+  }
+
   return (
     <OfferWrap>
       <Styles.Container>
@@ -141,7 +126,7 @@ export const Offer: FC<IOfferProps> = (props) => {
         <OfferSlider>
           <Slider {...settings}>
             {arr.map((el, index) => (
-              <Link href="/all-adds" key={index}>
+              <Link href={`/all-adds?id=${el.id}`} key={index}>
                 <Styles.Column
                   width="100%"
                   direction={"column"}
@@ -152,7 +137,7 @@ export const Offer: FC<IOfferProps> = (props) => {
                     <Image
                       width={90}
                       height={90}
-                      src={el.image}
+                      src={`https://projects-findsport.pn32gk.easypanel.host${el.image}`}
                       alt={el.title}
                     />
                   </OfferItemImage>
@@ -162,37 +147,6 @@ export const Offer: FC<IOfferProps> = (props) => {
             ))}
           </Slider>
         </OfferSlider>
-        <Offers>
-          <Styles.Column
-            width="100%"
-            gap={20}
-            align_items={"center"}
-            style={{ justifyContent: "center" }}
-          >
-            {arr.map((el, index) => (
-              <Styles.Row size={{ "2xl": 1.7 }} difference={20} key={index}>
-                <Link href="/all-adds">
-                  <Styles.Column
-                    width="100%"
-                    direction={"column"}
-                    align_items={"center"}
-                    gap={12}
-                  >
-                    <OfferItemImage>
-                      <Image
-                        width={90}
-                        height={90}
-                        src={el.image}
-                        alt={el.title}
-                      />
-                    </OfferItemImage>
-                    <Typography.H6 align="center">{el.title}</Typography.H6>
-                  </Styles.Column>
-                </Link>
-              </Styles.Row>
-            ))}
-          </Styles.Column>
-        </Offers>
       </Styles.Container>
     </OfferWrap>
   );

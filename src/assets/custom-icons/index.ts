@@ -35,8 +35,10 @@ import { UserEdit } from "./userEdit";
 import { Back } from "./back";
 import { ArrowRight } from "./arrowRight";
 import { RussianFlag } from "./russianFlag";
+import { UzbekFlag } from "./UzbekFlag";
 
 const CustomIcon = {
+  UzbekFlag,
   RussianFlag,
   ArrowRight,
   Back,

@@ -1,14 +1,48 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { SectionPersonImage, SectionWrap } from "./section.s";
 import Styles, { Typography } from "src/styles";
 import Image from "next/image";
 import CustomIcon from "src/assets/custom-icons";
-import Heart from "src/assets/icons/heart";
 import Common from "src/components/common";
+import { IDetailAdd } from "src/models/IAdd";
+import { addAPI } from "src/services/AddService";
+import { useTranslation } from "react-i18next";
 
-interface ISectionProps {}
+interface ISectionProps {
+  id: number;
+}
 
-export const Section: FC<ISectionProps> = (props) => {
+function addThousandSeparator(number: number) {
+  return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export const Section: FC<ISectionProps> = ({ id }) => {
+  const [section, setSection] = useState<IDetailAdd>({} as IDetailAdd);
+  const { data, isLoading, isError } = addAPI.useFetchDetailQuery({ id });
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      setSection(data.data);
+    }
+  }, [data, isLoading]);
+
+  if (isLoading) {
+    return (
+      <Typography.H1 style={{ width: "100%" }} align="center">
+        Loading...
+      </Typography.H1>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Typography.H1 align="center" style={{ width: "100%" }}>
+        {t("error")}
+      </Typography.H1>
+    );
+  }
+
   return (
     <SectionWrap>
       <Styles.Container>
@@ -16,7 +50,13 @@ export const Section: FC<ISectionProps> = (props) => {
           <Styles.Row size={{ md: 12, lg: 7, "2xl": 8 }} difference={16}>
             <Styles.Column width="100%" direction={"column"} gap={16}>
               <Common.AboutWrap>
-                <Common.ImageSlider />
+                <Common.ImageSlider
+                  images={
+                    section.images && section.images.length > 0
+                      ? section.images
+                      : []
+                  }
+                />
               </Common.AboutWrap>
               <Common.AboutWrap>
                 <Styles.Column width="100%" direction={"column"} gap={16}>
@@ -24,7 +64,7 @@ export const Section: FC<ISectionProps> = (props) => {
                     <Styles.Row size={{ xs: 7, sm: 8, md: 10 }} difference={0}>
                       <Styles.Column width="100%" direction={"column"} gap={8}>
                         <Typography.LEAD_TEXT>
-                          Зал единоборств "Золотой Дракон"
+                          {section.title}
                         </Typography.LEAD_TEXT>
                         <Styles.Column
                           width="100%"
@@ -32,9 +72,9 @@ export const Section: FC<ISectionProps> = (props) => {
                           gap={10}
                         >
                           <Typography.SMALL color="dark100">
-                            4.5
+                            {section.rating}
                           </Typography.SMALL>
-                          <CustomIcon.Stars rating={4.5} />
+                          <CustomIcon.Stars rating={section.rating} />
                         </Styles.Column>
                       </Styles.Column>
                     </Styles.Row>
@@ -45,52 +85,33 @@ export const Section: FC<ISectionProps> = (props) => {
                         align_items={"center"}
                         style={{ justifyContent: "flex-end" }}
                       >
-                        <CustomIcon.Share />
-                        <Heart.Outline />
+                        <Common.CopyURL />
+                        <Common.LikeBTN id={section.id} />
                       </Styles.Column>
                     </Styles.Row>
                   </Styles.Column>
                   <Styles.Column width="100%" gap={20} align_items={"center"}>
-                    <Typography.H2>200 000 sum</Typography.H2>
+                    <Typography.H2>
+                      {addThousandSeparator(section.price)} sum
+                    </Typography.H2>
                     <Typography.LEAD_TEXT>
                       (Групповая тренировка)
                     </Typography.LEAD_TEXT>
                   </Styles.Column>
                   <Styles.Column width="100%" gap={20} align_items={"center"}>
-                    <Typography.H2>400 000 sum</Typography.H2>
+                    <Typography.H2>
+                      {section.prices &&
+                      section.prices.length > 0 &&
+                      section.prices[0].price
+                        ? addThousandSeparator(section.prices[0].price)
+                        : "0"}{" "}
+                      sum
+                    </Typography.H2>
                     <Typography.LEAD_TEXT>
                       (Индивидуальная тренировка)
                     </Typography.LEAD_TEXT>
                   </Styles.Column>
-                  <Typography.TINY>
-                    Футбол на английском для 2010-2012 г.р. (команда для
-                    международных турниров). Ведем прежде всего отбор (с
-                    небольшой долей набора) мальчиков, но возможна отдельная
-                    группа для девочек при сильной инициативе от родителей.
-                    Можно без футбольного опыта (опыт в координационных видах
-                    желателен). При себе иметь бутсы сороконожки, форму по
-                    погоде (щитки-гетры на усмотрение).
-                    <br />
-                    Тренировки 3 р\нед по 1.5 часа в окно между 17:00 и 19:00
-                    (мы будем подкручивать график под большинство).
-                    <br />
-                    <br />
-                    Как проходит занятие? Тренировки проходят на английском (в
-                    начале частично, детям синхронно переводится; будут
-                    выдаваться памятки по словам и конструкциям).
-                    <br />
-                    <br />
-                    Простой ребенка без мяча или связок с партнерами сведен
-                    практически к нулю.
-                    <br />
-                    Родители будут активно вовлечены в процесс контролем по
-                    питанию ребенка, контролем над домашними заданиями по
-                    футболу и прикладному языку, будут принимать участие в
-                    консилиуме с тренером и инвестором по итогам контрольных
-                    тренировок с датчиками (вовлеченность родителей для нас
-                    крайне важна, если у вас нет на это времени или желания –
-                    рассмотрите для ребенка обычную коммерцию).
-                  </Typography.TINY>
+                  <Typography.TINY>{section.description}</Typography.TINY>
                 </Styles.Column>
               </Common.AboutWrap>
               <Common.AboutWrap>
@@ -153,7 +174,18 @@ export const Section: FC<ISectionProps> = (props) => {
           <Styles.Row size={{ md: 12, lg: 5, "2xl": 4 }} difference={16}>
             <Styles.Column width="100%" direction={"column"} gap={16}>
               <Common.AboutWrap>
-                <Common.Contact />
+                <Common.Contact
+                  name={
+                    section.phones && section.phones.length > 0
+                      ? section.phones[0].name
+                      : ""
+                  }
+                  phone={
+                    section.phones && section.phones.length > 0
+                      ? section.phones[0].phone
+                      : ""
+                  }
+                />
               </Common.AboutWrap>
               <Common.AboutWrap>
                 <Styles.Column width="100%" direction={"column"} gap={15}>
@@ -165,7 +197,9 @@ export const Section: FC<ISectionProps> = (props) => {
                         align_items={"center"}
                       >
                         <CustomIcon.Field />
-                        <Typography.SMALL>15 x 11.5 x 4.5</Typography.SMALL>
+                        <Typography.SMALL>
+                          {section.ground_size}
+                        </Typography.SMALL>
                       </Styles.Column>
                     </Styles.Row>
                     <Styles.Row size={2} difference={0}>
@@ -173,7 +207,8 @@ export const Section: FC<ISectionProps> = (props) => {
                     </Styles.Row>
                   </Styles.Column>
                   <Typography.SMALL>
-                    Возраст занимающихся: с 8 до 12 лет{" "}
+                    Возраст занимающихся: с {section.age_begin} до{" "}
+                    {section.age_end} лет{" "}
                   </Typography.SMALL>
                   <Typography.SMALL>
                     Уровень подготовки: начинающие, любители
@@ -181,7 +216,11 @@ export const Section: FC<ISectionProps> = (props) => {
                 </Styles.Column>
               </Common.AboutWrap>
               <Common.AboutWrap>
-                <Common.Orientir />
+                <Common.Orientir
+                  landmark={section.landmark}
+                  latitude={section.location && section.location.latitude}
+                  longitude={section.location && section.location.longitude}
+                />
               </Common.AboutWrap>
             </Styles.Column>
           </Styles.Row>

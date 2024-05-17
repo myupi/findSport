@@ -16,13 +16,21 @@ import { useTranslation } from "react-i18next";
 interface IAllItemsProps {}
 
 export const AllItems: FC<IAllItemsProps> = (props) => {
-  const { data, isLoading, isError } = addAPI.useFetchAllAddsQuery(8);
-  const [adds, setAdds] = useState<IAdd[]>([]);
+  const { data, isLoading, isError } = addAPI.useFetchAllAddsQuery(1);
   const { t } = useTranslation();
+  const [adds, setAdds] = useState<IAdd[]>([]);
+  const [pages, setPages] = useState<number>(1);
+
+  const links = {
+    club: "/clubs/",
+    section: "/sections/",
+    ground: "/grounds/",
+  };
 
   useEffect(() => {
     if (data && !isLoading) {
       setAdds(data.data);
+      setPages(data.append.pagination.total_pages);
     }
   }, [data, isLoading]);
 
@@ -67,7 +75,7 @@ export const AllItems: FC<IAllItemsProps> = (props) => {
               difference={{ xs: 8, sm: 8, lg: 16, "2xl": 18 }}
               key={index}
             >
-              <Link href="/grounds">
+              <Link href={`${(links as any)[el.ad_type]}${el.id}`}>
                 <Common.Card add={el} />
               </Link>
             </Styles.Row>
@@ -103,9 +111,11 @@ export const AllItems: FC<IAllItemsProps> = (props) => {
               <CustomIcon.Back />
             </Common.Button>
             <Common.Select>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
+              {Array(pages)
+                .fill(undefined)
+                .map((el, index) => (
+                  <option value={index + 1}>{index + 1}</option>
+                ))}
             </Common.Select>
             <Common.Button right={1}>
               <CustomIcon.Back />

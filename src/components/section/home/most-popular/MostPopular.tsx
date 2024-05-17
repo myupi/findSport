@@ -15,11 +15,16 @@ export const MostPopular: FC<IMostPopularProps> = (props) => {
   const { data, isLoading, isError } = addAPI.useFetchBestAddsQuery("");
   const [adds, setAdds] = useState<IAdd[]>([]);
 
+  const links = {
+    club: "/clubs/",
+    section: "/sections/",
+    ground: "/grounds/",
+  };
+
   useEffect(() => {
     if (data && !isLoading) {
       setAdds(data.data);
     }
-    console.log(adds);
   }, [data, isLoading]);
   return (
     <MostPopularWrap>
@@ -38,7 +43,7 @@ export const MostPopular: FC<IMostPopularProps> = (props) => {
               difference={{ xs: 8, sm: 8, lg: 16, "2xl": 18 }}
               key={index}
             >
-              <Link href="/grounds">
+              <Link href={`${(links as any)[el.ad_type]}${el.id}`}>
                 <Common.Card add={el} />
               </Link>
             </Styles.Row>
@@ -56,9 +61,7 @@ export const MostPopular: FC<IMostPopularProps> = (props) => {
                 </Styles.Row>
               ))}
         </Styles.Column>
-        {isError && (
-          <Typography.H2 align="center">{t("error")}</Typography.H2>
-        )}
+        {isError && <Typography.H2 align="center">{t("error")}</Typography.H2>}
         <ButtonAllPosts>
           <Link href="/all-adds">
             <Styles.Column

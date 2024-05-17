@@ -2,9 +2,9 @@ import Image from "next/image";
 import React, { FC } from "react";
 import Styles, { Typography } from "src/styles";
 import CustomIcon from "src/assets/custom-icons";
-import Heart from "src/assets/icons/heart";
-import { StyledCard } from "./card.s";
+import { LandmarkStyle, StyledCard } from "./card.s";
 import { IAdd } from "src/models/IAdd";
+import Common from "..";
 
 interface ICardProps {
   add: IAdd;
@@ -21,7 +21,7 @@ export const Card: FC<ICardProps> = ({ add }) => {
         <Image
           width={500}
           height={200}
-          src={add.images[0]}
+          src={`https://projects-findsport.pn32gk.easypanel.host/${add.images[0]}`}
           alt={add.title}
           style={{ width: "100%", height: "auto" }}
           priority
@@ -57,7 +57,9 @@ export const Card: FC<ICardProps> = ({ add }) => {
               <CustomIcon.Location />
             </Styles.Row>
             <Styles.Row size={11} difference={5}>
-              <Typography.LEAD_TEXT>{add.landmark}</Typography.LEAD_TEXT>
+              <Typography.LEAD_TEXT>
+                <LandmarkStyle>{add.landmark}</LandmarkStyle>
+              </Typography.LEAD_TEXT>
             </Styles.Row>
           </Styles.Column>
         </Styles.Column>
@@ -71,7 +73,7 @@ export const Card: FC<ICardProps> = ({ add }) => {
             <Typography.H6>{addThousandSeparator(add.price)} sum</Typography.H6>
           </Styles.Row>
           <Styles.Row size={1} difference={5}>
-            <Heart.Outline color="black" />
+            <Common.LikeBTN id={add.id} />
           </Styles.Row>
         </Styles.Column>
       </Styles.Column>

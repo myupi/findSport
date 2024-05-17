@@ -30,16 +30,17 @@ export const OfferItemImage = styled.div`
 `;
 
 export const OfferSlider = styled.div`
-  && {
-    display: none;
-    @media (max-width: 768px) {
-      width: 100%;
-      display: block;
-      padding: 0 30px;
-    }
-  }
+  
 `;
 
+// && {
+//   display: none;
+//   @media (max-width: 768px) {
+//     width: 100%;
+//     display: block;
+//     padding: 0 30px;
+//   }
+// }
 export const Offers = styled.div`
   && {
     display: block;

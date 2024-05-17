@@ -21,7 +21,7 @@ export const Breadcrumb: FC<IBreadcrumbProps> = (props) => {
               </Styles.Column>
             </Link>
           </Styles.Row>
-          <Styles.Row size={{ lg: 10}} difference={5}>
+          <Styles.Row size={{ lg: 10 }} difference={5}>
             <Styles.Column width="100%" gap={7.5}>
               <Link href={"/"}>
                 <Typography.SMALL style={{ textDecoration: "underline" }}>
@@ -31,7 +31,7 @@ export const Breadcrumb: FC<IBreadcrumbProps> = (props) => {
               /
               <Link href={router.asPath}>
                 <Typography.SMALL>
-                  {router.asPath.substring(1)}
+                  {router.asPath.substring(1).split("/")[0]}
                 </Typography.SMALL>
               </Link>
             </Styles.Column>

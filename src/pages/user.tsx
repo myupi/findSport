@@ -7,6 +7,7 @@ export default function User() {
     <>
       <Head>
         <title>FindSport | User</title>
+        <link rel="icon" type="image/x-icon" href="/images/Icon.png"></link>
       </Head>
       <main>
         <Sections.UserHead />

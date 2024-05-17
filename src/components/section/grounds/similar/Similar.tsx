@@ -11,14 +11,25 @@ import { useTranslation } from "react-i18next";
 interface ISimilarProps {}
 
 export const Similar: FC<ISimilarProps> = (props) => {
-  const { data, isLoading, isError } = addAPI.useFetchAllAddsQuery(8);
+  const { data, isLoading, isError } = addAPI.useFetchGroundsQuery({});
   const [adds, setAdds] = useState<IAdd[]>([]);
   const { t } = useTranslation();
+
+  const links = {
+    club: "/clubs/",
+    section: "/sections/",
+    ground: "/grounds/",
+  };
+
   useEffect(() => {
     if (data && !isLoading) {
       setAdds(data.data);
     }
   }, [data, isLoading]);
+
+  if (isError) {
+    return <Typography.H1 align="center">Данные не пришли</Typography.H1>;
+  }
   return (
     <SimilarWrap>
       <Styles.Container>
@@ -45,7 +56,7 @@ export const Similar: FC<ISimilarProps> = (props) => {
               difference={{ xs: 8, sm: 8, lg: 16, "2xl": 18 }}
               key={index}
             >
-              <Link href="/grounds">
+              <Link href={`${(links as any)[el.ad_type]}${el.id}`}>
                 <Common.Card add={el} />
               </Link>
             </Styles.Row>
@@ -63,7 +74,6 @@ export const Similar: FC<ISimilarProps> = (props) => {
                 </Styles.Row>
               ))}
         </Styles.Column>
-        {isError && <Typography.H2 align="center">{t("error")}</Typography.H2>}
         <Styles.Column
           width="100%"
           align_items={"center"}

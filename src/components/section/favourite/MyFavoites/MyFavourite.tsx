@@ -1,18 +1,18 @@
 import React, { FC, useEffect, useState } from "react";
-import { RentWrap } from "./rent.s";
+import { MyFavouriteWrap } from "./myFavourite.s";
 import Styles, { Typography } from "src/styles";
-import { PinMap } from "src/assets/custom-icons/pinmap";
-import { DocRow } from "src/assets/custom-icons/docrow";
-import Link from "next/link";
-import Common from "src/components/common";
 import { addAPI } from "src/services/AddService";
 import { IAdd } from "src/models/IAdd";
+import Link from "next/link";
+import Common from "src/components/common";
 import { useTranslation } from "react-i18next";
 
-interface IRentProps {}
+interface IMyFavouriteProps {}
 
-export const Rent: FC<IRentProps> = (props) => {
-  const { data, isLoading, isError } = addAPI.useFetchClubsQuery({});
+export const MyFavourite: FC<IMyFavouriteProps> = (props) => {
+  const { data, isLoading, isError } = addAPI.useFetchFavouritesQuery({
+    uid: "www",
+  });
   const [adds, setAdds] = useState<IAdd[]>([]);
   const { t } = useTranslation();
 
@@ -28,22 +28,15 @@ export const Rent: FC<IRentProps> = (props) => {
     }
   }, [data, isLoading]);
 
-  if (isError) {
-    return <Typography.H1 align="center">{t("error")}</Typography.H1>;
+
+  if(isError){
+    return <Typography.H1 align="center">{t("error")}</Typography.H1>
   }
 
+
   return (
-    <RentWrap>
+    <MyFavouriteWrap>
       <Styles.Container>
-        <Typography.H4 align="center">Аренда спортивных площадок</Typography.H4>
-        <Styles.Column
-          width="100%"
-          align_items={"center"}
-          style={{ justifyContent: "flex-end" }}
-        >
-          <PinMap />
-          <DocRow />
-        </Styles.Column>
         <Styles.Column width="100%" gap={{ xs: 8, sm: 8, md: 16, lg: 24 }}>
           {adds.map((el, index) => (
             <Styles.Row
@@ -57,7 +50,7 @@ export const Rent: FC<IRentProps> = (props) => {
             </Styles.Row>
           ))}
           {isLoading &&
-            Array(8)
+            Array(4)
               .fill(undefined)
               .map((el, index) => (
                 <Styles.Row
@@ -70,6 +63,6 @@ export const Rent: FC<IRentProps> = (props) => {
               ))}
         </Styles.Column>
       </Styles.Container>
-    </RentWrap>
+    </MyFavouriteWrap>
   );
 };
