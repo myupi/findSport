@@ -1,0 +1,1 @@
+export { ImagesBtn } from "./ImagesBtn";

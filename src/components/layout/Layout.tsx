@@ -6,21 +6,36 @@ import { Footer } from "./footer/Footer";
 import { Search } from "./search";
 import { Breadcrumb } from "./breadcrumb";
 
-
 interface ILayoutProps {
   children: ReactNode;
 }
 
+const routSearch: string[] = [
+  "/ground-add",
+  "/section-add",
+  "/club-add",
+  "/user",
+  "/registration",
+  "/edit-profile",
+];
+const routBreadCrumb: string[] = [
+  "/ground-add",
+  "/section-add",
+  "/club-add",
+  "/user",
+  "/registration",
+  "/",
+  "/edit-profile",
+];
+
 export const Layout: FC<ILayoutProps> = ({ children }) => {
   const router = useRouter();
-
-  
 
   return (
     <LayoutWrap path={router.asPath}>
       <Navbar />
-      {router.asPath != "/user" && <Search />}
-      {router.asPath != "/user" && router.asPath != "/" && <Breadcrumb />}
+      {!routSearch.includes(router.asPath) && <Search />}
+      {!routBreadCrumb.includes(router.asPath) && <Breadcrumb />}
       {children}
       <Footer />
     </LayoutWrap>

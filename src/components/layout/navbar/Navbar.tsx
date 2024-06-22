@@ -1,15 +1,12 @@
 import { FC, useState } from "react";
-import {
-  ChangeLanguage,
-  LogoLink,
-  NavbarWrap,
-} from "./navbar.s";
+import { ChangeLanguage, LogoLink, NavbarWrap } from "./navbar.s";
 import Styles, { Typography } from "src/styles";
 import Link from "next/link";
 import Image from "next/image";
 import Heart from "src/assets/icons/heart";
 import CustomIcon from "src/assets/custom-icons";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
 
 interface INavbarProps {}
 
@@ -27,13 +24,14 @@ const languages: Langugaes[] = [
 
 export const Navbar: FC<INavbarProps> = ({}) => {
   const { i18n } = useTranslation();
+  const router = useRouter();
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
   };
 
   return (
     <>
-      <NavbarWrap>
+      <NavbarWrap hidden={router.asPath == "/registration"}>
         <Styles.Container>
           <Styles.Column width="100%" align_items={"center"}>
             <Styles.Row size={6} difference={0}>

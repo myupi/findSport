@@ -1,11 +1,15 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-export const FooterWrap = styled.div`
+interface IFooterWrap {
+  hidden?: boolean;
+}
+
+export const FooterWrap = styled.div<IFooterWrap>`
   && {
     width: 100%;
     background: #01001f;
-
+    display: ${({ hidden }) => (hidden ? "none" : "block")};
     & > div {
       padding: 64px 0;
 

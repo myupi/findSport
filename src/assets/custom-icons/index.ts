@@ -36,8 +36,12 @@ import { Back } from "./back";
 import { ArrowRight } from "./arrowRight";
 import { RussianFlag } from "./russianFlag";
 import { UzbekFlag } from "./UzbekFlag";
+import { Logo } from "./logo";
+import { UploadImage } from "./UploadImage";
 
 const CustomIcon = {
+  UploadImage,
+  Logo,
   UzbekFlag,
   RussianFlag,
   ArrowRight,

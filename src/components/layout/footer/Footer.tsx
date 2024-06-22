@@ -5,6 +5,7 @@ import mock from "src/mock";
 import Link from "next/link";
 import Image from "next/image";
 import CustomIcon from "src/assets/custom-icons";
+import { useRouter } from "next/router";
 
 interface IFooterProps {}
 
@@ -44,8 +45,9 @@ const socials: ISocials[] = [
 
 export const Footer: FC<IFooterProps> = ({}) => {
   const navFooter = mock.navFooter;
+  const router = useRouter();
   return (
-    <FooterWrap>
+    <FooterWrap hidden={router.asPath == "/registration"}>
       <Styles.Container>
         <Styles.Column
           width="100%"
@@ -129,7 +131,8 @@ export const Footer: FC<IFooterProps> = ({}) => {
                 {navFooter.ContactUs.links.map((link, index) => (
                   <ListItem href={`tel:${link.number}`} key={index}>
                     <Typography.PARAGRAPH color="dark100">
-                      {link.label}: <span style={{color: "white"}}>{link.number}</span>
+                      {link.label}:{" "}
+                      <span style={{ color: "white" }}>{link.number}</span>
                     </Typography.PARAGRAPH>
                   </ListItem>
                 ))}

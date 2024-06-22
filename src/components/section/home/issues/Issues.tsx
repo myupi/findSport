@@ -14,6 +14,7 @@ import Animations from "src/animations";
 import CustomIcon from "src/assets/custom-icons";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
 
 interface IIssuesProps {}
 
@@ -154,7 +155,9 @@ export const Issues: FC<IIssuesProps> = (props) => {
                 align_items={"center"}
                 style={{ justifyContent: "center" }}
               >
-                <RegisterButton>{t("registration")}</RegisterButton>
+                <Link href={"/registration"}>
+                  <RegisterButton>{t("registration")}</RegisterButton>
+                </Link>
               </Styles.Column>
             </Styles.Row>
           </Styles.Column>

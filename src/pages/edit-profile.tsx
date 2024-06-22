@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Components from "src/components";
 
-export default function User() {
-  const Sections = Components.section.user;
+export default function EditProfile() {
+  const Sections = Components.section.editProfile;
   const router = useRouter();
 
   useEffect(() => {
@@ -17,12 +17,11 @@ export default function User() {
   return (
     <>
       <Head>
-        <title>FindSport | User</title>
+        <title>FindSport | Edit Profile</title>
         <link rel="icon" type="image/x-icon" href="/images/Icon.png"></link>
       </Head>
       <main>
-        <Sections.UserHead />
-        <Sections.UserPructs />
+        <Sections.EditProfile />
       </main>
     </>
   );

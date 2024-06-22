@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
-export const NavbarWrap = styled.nav`
+interface INavbarWrap {
+  hidden?: boolean;
+}
+
+export const NavbarWrap = styled.nav<INavbarWrap>`
   && {
     width: 100%;
     background: #01001f;
     padding: 12px 0;
+    display: ${({ hidden }) => (hidden ? "none" : "block")};
     & > div {
       display: flex;
       justify-content: space-between;
@@ -55,4 +60,3 @@ export const ChangeLanguage = styled.select`
     }
   }
 `;
-

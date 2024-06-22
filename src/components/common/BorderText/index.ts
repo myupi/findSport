@@ -1,0 +1,1 @@
+export { BorderText } from "./BorderText";
